@@ -5,7 +5,10 @@
 // uses express.raw() on this specific path.
 
 const express = require('express');
-const flw = require('../services/flutterwave');
+
+// Use mock payment service if FLW_SECRET_KEY is not configured
+const useMockPayment = !process.env.FLW_SECRET_KEY || process.env.FLW_SECRET_KEY.includes('replace_me');
+const flw = useMockPayment ? require('../services/mockPayment') : require('../services/flutterwave');
 const Order = require('../models/Order');
 const Artwork = require('../models/Artwork');
 
