@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Kartz global look === */
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  color: #fff;
+  font-family: Inter, system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(0,255,255,0.07), transparent 60%),
+    radial-gradient(900px 500px at 100% 100%, rgba(0,255,255,0.04), transparent 70%),
+    linear-gradient(180deg, #030303 0%, #070707 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@layer components {
+  .kz-card {
+    @apply bg-kartz-panel border border-kartz-line rounded-xl transition;
+  }
+  .kz-card:hover {
+    box-shadow: 0 0 16px rgba(0, 255, 255, 0.35), 0 0 32px rgba(0, 255, 255, 0.12);
+    border-color: rgba(0, 255, 255, 0.5);
+  }
+  .kz-btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold
+           bg-kartz-cyan text-kartz-bg hover:shadow-glow transition;
+  }
+  .kz-btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold
+           border border-kartz-line text-white hover:border-kartz-cyan hover:shadow-glowSm transition;
+  }
+  .kz-input {
+    @apply w-full rounded-md bg-black/60 border border-kartz-line px-3 py-2
+           text-white placeholder:text-kartz-mute focus:outline-none
+           focus:border-kartz-cyan focus:shadow-glowSm;
+  }
+  .kz-label { @apply text-sm text-kartz-mute mb-1 block; }
+  .kz-pill {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs
+           bg-kartz-cyan/10 text-kartz-cyan border border-kartz-cyan/30;
+  }
+}
+
+/* Subtle scrolling glow line for the hero */
+.kz-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.4), transparent);
+}
+
+/* Prevent layout shift while images load */
+img { background: #0a0a0c; }
