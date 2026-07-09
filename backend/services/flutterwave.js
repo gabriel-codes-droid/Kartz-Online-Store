@@ -64,7 +64,8 @@ async function createSubaccount({ displayName, email, phone, provider }) {
 }
 
 /**
- * Create a mobile-money charge. Returns the full Flutterwave response data.
+ * Create a payment charge supporting both international cards and Rwanda mobile money.
+ * Returns the full Flutterwave response data.
  * The subaccount_id attached routes 5% to the platform automatically.
  */
 async function createMobileMoneyCharge({
@@ -84,7 +85,8 @@ async function createMobileMoneyCharge({
     tx_ref: txRef,
     amount: Number(amount),
     currency,
-    payment_options: 'mobilemoneyrwanda',
+    // Support both international cards and Rwanda mobile money
+    payment_options: 'card, mobilemoneyrwanda, account',
     redirect_url: redirectUrl,
     customer: {
       email,
@@ -94,9 +96,11 @@ async function createMobileMoneyCharge({
     customizations: {
       title: 'Kartz Art Purchase',
       description: artworkTitle || 'Artwork purchase',
+      logo: 'https://your-logo-url.com/logo.png', // Update with actual logo URL
     },
     meta: {
       tx_ref: txRef,
+      mode: 'both', // Allow both card and mobile money
     },
   };
   if (subaccountId) body.subaccount_id = subaccountId;

@@ -33,16 +33,16 @@ export default function Home(): React.ReactElement {
   return (
     <div className="max-w-6xl mx-auto px-4">
       <section className="py-12 md:py-20">
-        <p className="kz-pill mb-3">rwanda · mobile money</p>
+        <p className="kz-pill mb-3">rwanda · international payments</p>
         <h1 className="font-display text-4xl md:text-6xl leading-tight">
-          buy art, <span className="text-kartz-cyan">pay in rwf</span>.{' '}
+          buy art, <span className="text-kartz-cyan">pay worldwide</span>.{' '}
           <br />
           artists keep <span className="text-kartz-cyan">95%</span>.
         </h1>
         <p className="text-kartz-mute mt-4 max-w-2xl">
-          kartz is an art marketplace built in rwanda. buyers pay with mtn momo or
-          airtel money, and the platform keeps a flat 5% commission — the rest
-          goes straight to the artist.
+          kartz is an art marketplace built in rwanda. buyers pay with cards,
+          mtn momo, or airtel money, and the platform keeps a flat 5% commission —
+          the rest goes straight to the artist.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link to="/explore" className="kz-btn">

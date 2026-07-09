@@ -16,6 +16,15 @@ body {
   min-height: 100vh;
 }
 
+/* Light mode */
+html.light body {
+  color: #1e293b;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(0,188,212,0.05), transparent 60%),
+    radial-gradient(900px 500px at 100% 100%, rgba(0,188,212,0.03), transparent 70%),
+    linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
 @layer components {
   .kz-card {
     @apply bg-kartz-panel border border-kartz-line rounded-xl transition;
@@ -24,23 +33,44 @@ body {
     box-shadow: 0 0 16px rgba(0, 255, 255, 0.35), 0 0 32px rgba(0, 255, 255, 0.12);
     border-color: rgba(0, 255, 255, 0.5);
   }
+  html.light .kz-card {
+    @apply bg-light-panel border-light-line;
+  }
+  html.light .kz-card:hover {
+    box-shadow: 0 0 16px rgba(0, 188, 212, 0.25), 0 0 32px rgba(0, 188, 212, 0.1);
+    border-color: rgba(0, 188, 212, 0.4);
+  }
   .kz-btn {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold
            bg-kartz-cyan text-kartz-bg hover:shadow-glow transition;
   }
+  html.light .kz-btn {
+    @apply bg-light-cyan text-white hover:shadow-glowLight;
+  }
   .kz-btn-ghost {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold
            border border-kartz-line text-white hover:border-kartz-cyan hover:shadow-glowSm transition;
+  }
+  html.light .kz-btn-ghost {
+    @apply border-light-line text-slate-700 hover:border-light-cyan hover:text-light-cyan hover:shadow-glowSmLight;
   }
   .kz-input {
     @apply w-full rounded-md bg-black/60 border border-kartz-line px-3 py-2
            text-white placeholder:text-kartz-mute focus:outline-none
            focus:border-kartz-cyan focus:shadow-glowSm;
   }
+  html.light .kz-input {
+    @apply bg-white/80 border-light-line text-slate-800 placeholder:text-light-mute
+           focus:border-light-cyan focus:shadow-glowSmLight;
+  }
   .kz-label { @apply text-sm text-kartz-mute mb-1 block; }
+  html.light .kz-label { @apply text-light-mute; }
   .kz-pill {
     @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs
            bg-kartz-cyan/10 text-kartz-cyan border border-kartz-cyan/30;
+  }
+  html.light .kz-pill {
+    @apply bg-light-cyan/10 text-light-cyan border-light-cyan/30;
   }
 }
 
@@ -49,6 +79,10 @@ body {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(0,255,255,0.4), transparent);
 }
+html.light .kz-divider {
+  background: linear-gradient(90deg, transparent, rgba(0,188,212,0.3), transparent);
+}
 
 /* Prevent layout shift while images load */
 img { background: #0a0a0c; }
+html.light img { background: #e2e8f0; }

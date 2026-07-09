@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
@@ -12,10 +13,20 @@ export default {
           mute: '#9da1a5',
           line: '#1a1a1d',
         },
+        light: {
+          bg: '#f8fafc',
+          panel: '#ffffff',
+          cyan: '#00bcd4',
+          cyanDim: '#0097a7',
+          mute: '#64748b',
+          line: '#e2e8f0',
+        },
       },
       boxShadow: {
         glow: '0 0 16px rgba(0, 255, 255, 0.35), 0 0 32px rgba(0, 255, 255, 0.12)',
         glowSm: '0 0 6px rgba(0, 255, 255, 0.35)',
+        glowLight: '0 0 16px rgba(0, 188, 212, 0.25), 0 0 32px rgba(0, 188, 212, 0.1)',
+        glowSmLight: '0 0 6px rgba(0, 188, 212, 0.25)',
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
