@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../auth';
 import Spinner from '../components/Spinner';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function Login(): React.ReactElement {
   const { login } = useAuth();
@@ -10,6 +11,7 @@ export default function Login(): React.ReactElement {
   const [params] = useSearchParams();
   const [identifier, setIdentifier] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [err, setErr] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -46,13 +48,23 @@ export default function Login(): React.ReactElement {
         </div>
         <div>
           <label className="kz-label">password</label>
-          <input
-            className="kz-input"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="relative">
+            <input
+              className="kz-input pr-10"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-kartz-mute hover:text-kartz-cyan transition-colors"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
         </div>
         {err && <p className="text-sm text-red-400">{err}</p>}
         <button type="submit" disabled={loading} className="kz-btn w-full">
