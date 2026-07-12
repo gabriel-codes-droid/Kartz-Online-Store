@@ -45,13 +45,13 @@ export default function BecomeArtist(): React.ReactElement {
   }
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-10">
-      <h1 className="font-display text-3xl mb-1">become an artist</h1>
+    <div className="max-w-xl mx-auto px-4 py-8 sm:py-10">
+      <h1 className="font-display text-2xl sm:text-3xl mb-1">become an artist</h1>
       <p className="text-kartz-mute text-sm mb-6">
         we create a flutterwave subaccount for you so 95% of every sale goes to
         your mobile money and 5% supports the platform.
       </p>
-      <form onSubmit={submit} className="kz-card p-5 space-y-3">
+      <form onSubmit={submit} className="kz-card p-4 sm:p-5 space-y-3">
         <div>
           <label className="kz-label">display name (shown on your artworks)</label>
           <input

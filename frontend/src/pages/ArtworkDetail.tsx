@@ -6,6 +6,7 @@ import { useAuth } from '../auth';
 import { formatRWF, timeAgo } from '../components/format';
 import Spinner from '../components/Spinner';
 import BuyModal from '../components/BuyModal';
+import { Heart, Share2 } from 'lucide-react';
 import type { Artwork, User } from '../types';
 
 export default function ArtworkDetail(): React.ReactElement {
@@ -16,6 +17,9 @@ export default function ArtworkDetail(): React.ReactElement {
   const [err, setErr] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [showBuy, setShowBuy] = useState<boolean>(false);
+  const [liked, setLiked] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [shareCount, setShareCount] = useState<number>(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -24,7 +28,15 @@ export default function ArtworkDetail(): React.ReactElement {
         const { data } = await api.get<{ artwork: Artwork }>(
           `/artworks/${id}`
         );
-        if (!cancelled) setArt(data.artwork);
+        if (!cancelled) {
+          setArt(data.artwork);
+          setLikeCount(data.artwork.likes || 0);
+          setShareCount(data.artwork.shares || 0);
+          // Check if current user liked this artwork
+          if (user && data.artwork.likedBy) {
+            setLiked(data.artwork.likedBy.includes(user.id));
+          }
+        }
       } catch {
         if (!cancelled) setErr('artwork not found');
       } finally {
@@ -34,7 +46,7 @@ export default function ArtworkDetail(): React.ReactElement {
     return () => {
       cancelled = true;
     };
-  }, [id]);
+  }, [id, user]);
 
   function onBuyClick() {
     if (!user) {
@@ -42,6 +54,44 @@ export default function ArtworkDetail(): React.ReactElement {
       return;
     }
     setShowBuy(true);
+  }
+
+  async function handleLike() {
+    if (!user) {
+      nav('/login?next=' + encodeURIComponent(window.location.pathname));
+      return;
+    }
+    try {
+      const { data } = await api.post<{ artwork: Artwork; liked: boolean }>(
+        `/artworks/${id}/like`
+      );
+      setLiked(data.liked);
+      setLikeCount(data.artwork.likes || 0);
+    } catch {
+      // Silently fail on like error
+    }
+  }
+
+  async function handleShare() {
+    try {
+      const { data } = await api.post<{ artwork: Artwork; shares: number }>(
+        `/artworks/${id}/share`
+      );
+      setShareCount(data.shares);
+      
+      // Copy URL to clipboard
+      if (navigator.share) {
+        await navigator.share({
+          title: art?.title || 'Artwork',
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch {
+      // Silently fail on share error
+    }
   }
 
   if (loading) {
@@ -97,6 +147,29 @@ export default function ArtworkDetail(): React.ReactElement {
           <p className="text-kartz-cyan text-2xl font-display mt-3">
             {formatRWF(art.price)}
           </p>
+          
+          {/* Like and Share Buttons */}
+          <div className="flex items-center gap-3 mt-4">
+            <button
+              onClick={handleLike}
+              className={`flex items-center gap-2 px-4 py-2 rounded-md border transition-colors ${
+                liked
+                  ? 'border-kartz-cyan text-kartz-cyan bg-kartz-cyan/10'
+                  : 'border-kartz-line text-kartz-mute hover:text-white hover:border-white/30'
+              }`}
+            >
+              <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
+              <span>{likeCount}</span>
+            </button>
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-2 px-4 py-2 rounded-md border border-kartz-line text-kartz-mute hover:text-white hover:border-white/30 transition-colors"
+            >
+              <Share2 size={18} />
+              <span>{shareCount}</span>
+            </button>
+          </div>
+          
           <p className="mt-4 whitespace-pre-wrap leading-relaxed text-white/90">
             {art.description || 'no description.'}
           </p>

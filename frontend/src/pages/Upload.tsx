@@ -86,8 +86,8 @@ export default function Upload(): React.ReactElement {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="font-display text-3xl mb-1">upload artwork</h1>
+    <div className="max-w-3xl mx-auto px-4 py-6 sm:py-8">
+      <h1 className="font-display text-2xl sm:text-3xl mb-1">upload artwork</h1>
       <p className="text-kartz-mute text-sm mb-6">
         pick a jpg/png/webp/gif under 8MB. we upload it first, then create the
         artwork with a title, price, and category.
