@@ -146,4 +146,50 @@ router.get('/by-artist/:artistId', async (req, res, next) => {
   }
 });
 
+// --- like artwork (auth required) ---
+router.post('/:id/like', authRequired, async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ error: 'invalid id' });
+    }
+    const art = await Artwork.findById(req.params.id);
+    if (!art) return res.status(404).json({ error: 'artwork not found' });
+    
+    const userId = req.user._id;
+    const alreadyLiked = art.likedBy.includes(userId);
+    
+    if (alreadyLiked) {
+      // Unlike
+      art.likedBy = art.likedBy.filter(id => id.toString() !== userId.toString());
+      art.likes = Math.max(0, art.likes - 1);
+    } else {
+      // Like
+      art.likedBy.push(userId);
+      art.likes += 1;
+    }
+    
+    await art.save();
+    res.json({ artwork: art, liked: !alreadyLiked });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// --- share artwork (public, just increments counter) ---
+router.post('/:id/share', async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ error: 'invalid id' });
+    }
+    const art = await Artwork.findById(req.params.id);
+    if (!art) return res.status(404).json({ error: 'artwork not found' });
+    
+    art.shares += 1;
+    await art.save();
+    res.json({ artwork: art, shares: art.shares });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

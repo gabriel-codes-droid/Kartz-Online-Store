@@ -13,6 +13,9 @@ const artworkSchema = new mongoose.Schema(
     imageUrl: { type: String, default: '' },
     artistId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     sold: { type: Boolean, default: false },
+    likes: { type: Number, default: 0 },
+    likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    shares: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

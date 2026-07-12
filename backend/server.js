@@ -80,7 +80,7 @@ app.use((err, _req, res, _next) => {
 });
 
 // --- Boot ---
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 
 (async () => {
   try {
