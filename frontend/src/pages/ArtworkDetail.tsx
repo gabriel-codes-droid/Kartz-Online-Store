@@ -1,12 +1,12 @@
 // ArtworkDetail.tsx - single artwork view, buy button, sold state
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Heart, Share2, ArrowLeft, ShoppingBag, ShieldCheck } from 'lucide-react';
 import api from '../api';
 import { useAuth } from '../auth';
 import { formatRWF, timeAgo } from '../components/format';
 import Spinner from '../components/Spinner';
 import BuyModal from '../components/BuyModal';
-import { Heart, Share2 } from 'lucide-react';
 import type { Artwork, User } from '../types';
 
 export default function ArtworkDetail(): React.ReactElement {
@@ -25,14 +25,11 @@ export default function ArtworkDetail(): React.ReactElement {
     let cancelled = false;
     (async () => {
       try {
-        const { data } = await api.get<{ artwork: Artwork }>(
-          `/artworks/${id}`
-        );
+        const { data } = await api.get<{ artwork: Artwork }>(`/artworks/${id}`);
         if (!cancelled) {
           setArt(data.artwork);
           setLikeCount(data.artwork.likes || 0);
           setShareCount(data.artwork.shares || 0);
-          // Check if current user liked this artwork
           if (user && data.artwork.likedBy) {
             setLiked(data.artwork.likedBy.includes(user.id));
           }
@@ -48,7 +45,7 @@ export default function ArtworkDetail(): React.ReactElement {
     };
   }, [id, user]);
 
-  function onBuyClick() {
+  function onBuyClick(): void {
     if (!user) {
       nav('/login?next=' + encodeURIComponent(window.location.pathname));
       return;
@@ -56,7 +53,7 @@ export default function ArtworkDetail(): React.ReactElement {
     setShowBuy(true);
   }
 
-  async function handleLike() {
+  async function handleLike(): Promise<void> {
     if (!user) {
       nav('/login?next=' + encodeURIComponent(window.location.pathname));
       return;
@@ -72,14 +69,12 @@ export default function ArtworkDetail(): React.ReactElement {
     }
   }
 
-  async function handleShare() {
+  async function handleShare(): Promise<void> {
     try {
       const { data } = await api.post<{ artwork: Artwork; shares: number }>(
         `/artworks/${id}/share`
       );
       setShareCount(data.shares);
-      
-      // Copy URL to clipboard
       if (navigator.share) {
         await navigator.share({
           title: art?.title || 'Artwork',
@@ -87,6 +82,7 @@ export default function ArtworkDetail(): React.ReactElement {
         });
       } else {
         await navigator.clipboard.writeText(window.location.href);
+        // Soft non-blocking notice using the error class for visibility
         alert('Link copied to clipboard!');
       }
     } catch {
@@ -96,13 +92,12 @@ export default function ArtworkDetail(): React.ReactElement {
 
   if (loading) {
     return (
-      <div className="p-10 text-kartz-mute">
-        <Spinner />
+      <div className="p-10 flex justify-center">
+        <Spinner size={20} />
       </div>
     );
   }
-  if (err)
-    return <div className="p-10 text-red-400">{err}</div>;
+  if (err) return <div className="p-10 text-red-400">{err}</div>;
   if (!art) return <></>;
 
   const rawArtist: User | string = art.artistId;
@@ -114,76 +109,80 @@ export default function ArtworkDetail(): React.ReactElement {
   const isOwner = !!(user && artistId && artistId === user.id);
   const img =
     art.imageUrl ||
-    `https://placehold.co/900x600/0d0d0f/00ffff?text=${encodeURIComponent(
-      art.title
-    )}`;
+    `https://placehold.co/900x600/0d0d0f/00ffff?text=${encodeURIComponent(art.title)}`;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8 kz-fade-up">
       <Link
         to="/explore"
-        className="text-sm text-kartz-mute hover:text-kartz-cyan"
+        className="inline-flex items-center gap-1 text-sm text-kartz-mute hover:text-kartz-cyan transition-colors"
       >
-        ← back to explore
+        <ArrowLeft size={14} /> back to explore
       </Link>
+
       <div className="grid md:grid-cols-2 gap-8 mt-4">
         <div className="kz-card overflow-hidden">
-          <img
-            src={img}
-            alt={art.title}
-            className="w-full h-auto"
-            onError={(e) => {
-              e.currentTarget.src = `https://placehold.co/900x600/0d0d0f/00ffff?text=${encodeURIComponent(
-                art.title
-              )}`;
-            }}
-          />
+          <div className="aspect-[4/3] bg-black/40">
+            <img
+              src={img}
+              alt={art.title}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.src = `https://placehold.co/900x600/0d0d0f/00ffff?text=${encodeURIComponent(
+                  art.title
+                )}`;
+              }}
+            />
+          </div>
         </div>
+
         <div>
-          <h1 className="font-display text-3xl">{art.title}</h1>
-          <p className="text-kartz-mute mt-1 capitalize">
-            {art.category} · listed {timeAgo(art.createdAt)}
-          </p>
-          <p className="text-kartz-cyan text-2xl font-display mt-3">
-            {formatRWF(art.price)}
-          </p>
-          
-          {/* Like and Share Buttons */}
-          <div className="flex items-center gap-3 mt-4">
+          <span className="kz-pill capitalize mb-3">{art.category}</span>
+          <h1 className="font-display text-3xl sm:text-4xl leading-tight">{art.title}</h1>
+          <p className="text-kartz-mute mt-1 text-sm">listed {timeAgo(art.createdAt)}</p>
+          <p className="text-kartz-cyan text-3xl font-display mt-3">{formatRWF(art.price)}</p>
+
+          {/* Engagement row */}
+          <div className="flex items-center gap-2 mt-4">
             <button
               onClick={handleLike}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md border transition-colors ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm transition-colors ${
                 liked
                   ? 'border-kartz-cyan text-kartz-cyan bg-kartz-cyan/10'
                   : 'border-kartz-line text-kartz-mute hover:text-white hover:border-white/30'
               }`}
+              aria-pressed={liked}
             >
-              <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
+              <Heart size={16} fill={liked ? 'currentColor' : 'none'} />
               <span>{likeCount}</span>
             </button>
             <button
               onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 rounded-md border border-kartz-line text-kartz-mute hover:text-white hover:border-white/30 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-md border border-kartz-line text-kartz-mute hover:text-white hover:border-white/30 text-sm transition-colors"
             >
-              <Share2 size={18} />
+              <Share2 size={16} />
               <span>{shareCount}</span>
             </button>
           </div>
-          
-          <p className="mt-4 whitespace-pre-wrap leading-relaxed text-white/90">
-            {art.description || 'no description.'}
-          </p>
 
+          {/* Description */}
+          <div className="mt-5 kz-card p-4">
+            <p className="text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
+              {art.description || 'no description.'}
+            </p>
+          </div>
+
+          {/* Artist card */}
           {artistId && (
-            <div className="kz-card p-3 mt-6 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-kartz-cyan/15 border border-kartz-cyan/40 flex items-center justify-center text-kartz-cyan font-display">
+            <div className="kz-card p-3 mt-4 flex items-center gap-3">
+              <div className="w-11 h-11 rounded-full bg-kartz-cyan/15 border border-kartz-cyan/40 flex items-center justify-center text-kartz-cyan font-display text-lg shrink-0">
                 {(artist.displayName || artist.username || '?')[0].toUpperCase()}
               </div>
-              <div>
-                <p className="text-sm text-kartz-mute">artist</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-kartz-mute">artist</p>
                 <Link
                   to={`/artist/${artistId}`}
-                  className="text-kartz-cyan hover:underline"
+                  className="text-kartz-cyan hover:underline font-semibold"
                 >
                   {artist.displayName || artist.username || 'unknown'}
                 </Link>
@@ -191,15 +190,27 @@ export default function ArtworkDetail(): React.ReactElement {
             </div>
           )}
 
+          {/* Buy CTA / status */}
           {art.sold ? (
-            <p className="mt-6 text-kartz-mute">this piece has been sold.</p>
+            <div className="kz-card p-4 mt-5 border-red-400/30 bg-red-400/5">
+              <p className="text-sm font-semibold text-red-300">this piece has been sold.</p>
+              <p className="text-xs text-kartz-mute mt-1">
+                browse more from this artist or check the full catalogue.
+              </p>
+            </div>
           ) : isOwner ? (
-            <p className="mt-6 text-kartz-mute">this is your listing.</p>
+            <div className="kz-card p-4 mt-5">
+              <p className="text-sm text-kartz-mute">this is your listing.</p>
+            </div>
           ) : (
-            <button onClick={onBuyClick} className="kz-btn mt-6 w-full md:w-auto">
-              buy with mobile money
+            <button onClick={onBuyClick} className="kz-btn mt-5 w-full md:w-auto text-base px-6 py-3">
+              <ShoppingBag size={16} className="mr-2" /> buy with mobile money
             </button>
           )}
+
+          <p className="mt-3 text-[11px] text-kartz-mute inline-flex items-center gap-1">
+            <ShieldCheck size={11} /> secure payment via flutterwave · 5% supports the platform
+          </p>
         </div>
       </div>
       {showBuy && art && <BuyModal art={art} onClose={() => setShowBuy(false)} />}

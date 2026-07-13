@@ -2,12 +2,15 @@
 // Drag/drop OR file input. 8MB limit matches the backend.
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UploadCloud, Image as ImageIcon, Check } from 'lucide-react';
 import api, { uploadImage } from '../api';
 import Spinner from '../components/Spinner';
 import { CATEGORIES, type ArtCategory } from '../types';
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB
 const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+type Step = 'pick' | 'uploading' | 'creating' | 'done';
 
 export default function Upload(): React.ReactElement {
   const nav = useNavigate();
@@ -20,10 +23,10 @@ export default function Upload(): React.ReactElement {
   const [dragging, setDragging] = useState<boolean>(false);
   const [err, setErr] = useState<string>('');
   const [busy, setBusy] = useState<boolean>(false);
-  const [step, setStep] = useState<'pick' | 'uploading' | 'creating' | 'done'>('pick');
+  const [step, setStep] = useState<Step>('pick');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  function pickFile(f: File | null | undefined) {
+  function pickFile(f: File | null | undefined): void {
     setErr('');
     if (!f) return;
     if (!ALLOWED.includes(f.type)) {
@@ -40,7 +43,7 @@ export default function Upload(): React.ReactElement {
     reader.readAsDataURL(f);
   }
 
-  function onDrop(e: React.DragEvent<HTMLDivElement>) {
+  function onDrop(e: React.DragEvent<HTMLDivElement>): void {
     e.preventDefault();
     setDragging(false);
     pickFile(e.dataTransfer.files?.[0]);
@@ -85,15 +88,44 @@ export default function Upload(): React.ReactElement {
     }
   }
 
+  const stepIdx: Record<Step, number> = { pick: 0, uploading: 1, creating: 2, done: 3 };
+  const currentIdx = stepIdx[step];
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6 sm:py-8">
-      <h1 className="font-display text-2xl sm:text-3xl mb-1">upload artwork</h1>
-      <p className="text-kartz-mute text-sm mb-6">
+    <div className="max-w-3xl mx-auto px-4 py-6 sm:py-8 kz-fade-up">
+      <h1 className="kz-section-title text-2xl sm:text-3xl">upload artwork</h1>
+      <p className="kz-section-sub mb-6">
         pick a jpg/png/webp/gif under 8MB. we upload it first, then create the
         artwork with a title, price, and category.
       </p>
 
+      {/* stepper */}
+      <div className="flex items-center gap-2 mb-6">
+        {['pick image', 'uploading', 'publishing', 'done'].map((label, i) => {
+          const status: 'done' | 'active' | 'idle' =
+            i < currentIdx ? 'done' : i === currentIdx ? 'active' : 'idle';
+          return (
+            <React.Fragment key={label}>
+              <div className="flex items-center gap-1.5">
+                <div
+                  className={`kz-step-dot ${status === 'done' ? 'is-done' : ''} ${status === 'active' ? 'is-active' : ''}`}
+                />
+                <span
+                  className={`text-xs capitalize ${
+                    status === 'idle' ? 'text-kartz-mute' : 'text-white'
+                  }`}
+                >
+                  {label}
+                </span>
+              </div>
+              {i < 3 && <div className="flex-1 h-px bg-kartz-line" />}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
       <form onSubmit={submit} className="space-y-5">
+        {/* dropzone */}
         <div
           onDragOver={(e) => {
             e.preventDefault();
@@ -103,7 +135,9 @@ export default function Upload(): React.ReactElement {
           onDrop={onDrop}
           onClick={() => fileInputRef.current?.click()}
           className={`kz-card p-6 cursor-pointer text-center transition ${
-            dragging ? 'border-kartz-cyan shadow-glow' : ''
+            dragging
+              ? 'border-kartz-cyan shadow-glow'
+              : 'hover:border-kartz-cyan/40'
           }`}
         >
           {preview ? (
@@ -114,15 +148,13 @@ export default function Upload(): React.ReactElement {
                 className="max-h-72 mx-auto rounded-md border border-kartz-line"
               />
               <p className="text-xs text-kartz-mute">
-                {file?.name} · {Math.round((file?.size || 0) / 1024)} KB · click
-                or drop to replace
+                {file?.name} · {Math.round((file?.size || 0) / 1024)} KB · click or drop to replace
               </p>
             </div>
           ) : (
             <div className="py-10 text-kartz-mute">
-              <p className="text-kartz-cyan font-display text-lg">
-                drop image here
-              </p>
+              <UploadCloud size={36} className="mx-auto text-kartz-cyan mb-2" />
+              <p className="text-kartz-cyan font-display text-lg">drop image here</p>
               <p className="text-sm">or click to choose a file</p>
               <p className="text-xs mt-2">jpg / png / webp / gif · up to 8MB</p>
             </div>
@@ -138,28 +170,33 @@ export default function Upload(): React.ReactElement {
 
         <div className="kz-card p-5 space-y-3">
           <div>
-            <label className="kz-label">title</label>
+            <label className="kz-label" htmlFor="up-title">title</label>
             <input
+              id="up-title"
               className="kz-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
               maxLength={120}
+              placeholder="e.g. Kigali Skyline at Dusk"
             />
           </div>
           <div>
-            <label className="kz-label">description</label>
+            <label className="kz-label" htmlFor="up-desc">description</label>
             <textarea
+              id="up-desc"
               className="kz-input min-h-[100px]"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               maxLength={4000}
+              placeholder="medium, size, story behind the piece…"
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="kz-form-row cols-2">
             <div>
-              <label className="kz-label">price (RWF)</label>
+              <label className="kz-label" htmlFor="up-price">price (RWF)</label>
               <input
+                id="up-price"
                 className="kz-input"
                 type="number"
                 min={1}
@@ -171,14 +208,15 @@ export default function Upload(): React.ReactElement {
               />
             </div>
             <div>
-              <label className="kz-label">category</label>
+              <label className="kz-label" htmlFor="up-cat">category</label>
               <select
+                id="up-cat"
                 className="kz-input"
                 value={category}
                 onChange={(e) => setCategory(e.target.value as ArtCategory)}
               >
                 {CATEGORIES.map((c) => (
-                  <option key={c} value={c} className="capitalize">
+                  <option key={c} value={c}>
                     {c}
                   </option>
                 ))}
@@ -189,13 +227,27 @@ export default function Upload(): React.ReactElement {
 
         {err && <p className="text-sm text-red-400">{err}</p>}
 
-        <button type="submit" disabled={busy} className="kz-btn w-full">
-          {step === 'uploading' && <Spinner size={16} />}
-          {step === 'creating' && <Spinner size={16} />}
-          {step === 'uploading' && ' uploading image…'}
-          {step === 'creating' && ' creating artwork…'}
-          {step === 'pick' && ' publish artwork'}
-          {step === 'done' && ' done — redirecting…'}
+        <button type="submit" disabled={busy} className="kz-btn w-full justify-center text-base py-3">
+          {step === 'uploading' && (
+            <>
+              <Spinner size={16} className="mr-2" /> uploading image…
+            </>
+          )}
+          {step === 'creating' && (
+            <>
+              <Spinner size={16} className="mr-2" /> creating artwork…
+            </>
+          )}
+          {step === 'pick' && (
+            <>
+              <ImageIcon size={16} className="mr-2" /> publish artwork
+            </>
+          )}
+          {step === 'done' && (
+            <>
+              <Check size={16} className="mr-2" /> done — redirecting…
+            </>
+          )}
         </button>
       </form>
     </div>
