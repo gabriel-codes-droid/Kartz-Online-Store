@@ -4,6 +4,8 @@
 //   POST /api/auth/login            - email/username + password
 //   GET  /api/auth/me               - current user (auth required)
 //   POST /api/auth/upgrade-artist   - upgrade user to artist + create subaccount
+//   GET  /api/auth/check-email      - live email availability
+//   GET  /api/auth/check-username   - live username availability
 
 const express = require('express');
 const jwt = require('jsonwebtoken');
@@ -104,6 +106,32 @@ router.post('/login', async (req, res, next) => {
 // --- me ---
 router.get('/me', authRequired, (req, res) => {
   return res.json({ user: publicUser(req.user) });
+});
+
+// --- check-email (live availability for the signup form) ---
+router.get('/check-email', async (req, res, next) => {
+  try {
+    const email = String(req.query.email || '').toLowerCase().trim();
+    if (!email) return res.status(400).json({ error: 'email is required' });
+    if (!EMAIL_RE.test(email)) return res.json({ exists: false, valid: false });
+    const found = await User.findOne({ email }).select('_id').lean();
+    return res.json({ exists: !!found, valid: true });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// --- check-username (live availability for the signup form) ---
+router.get('/check-username', async (req, res, next) => {
+  try {
+    const username = String(req.query.username || '').trim();
+    if (!username) return res.status(400).json({ error: 'username is required' });
+    if (!USERNAME_RE.test(username)) return res.json({ exists: false, valid: false });
+    const found = await User.findOne({ username }).select('_id').lean();
+    return res.json({ exists: !!found, valid: true });
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // --- upgrade to artist ---

@@ -51,6 +51,10 @@ export interface Artwork {
   artistId: User | string;
   sold: boolean;
   createdAt: string;
+  // Engagement counters — backend may omit these for list routes.
+  likes?: number;
+  shares?: number;
+  likedBy?: string[];
 }
 
 export type OrderStatus = 'pending' | 'completed' | 'failed' | 'cancelled';

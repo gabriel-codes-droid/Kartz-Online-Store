@@ -1,5 +1,6 @@
 // Admin.tsx - stats dashboard + user role management
 import React, { useEffect, useState } from 'react';
+import { Users, Palette, BarChart3, TrendingUp, ShoppingBag, Wallet } from 'lucide-react';
 import api from '../api';
 import Spinner from '../components/Spinner';
 import { formatRWF, timeAgo } from '../components/format';
@@ -63,6 +64,29 @@ function StatusPill({ s }: { s: OrderStatus }): React.ReactElement {
   );
 }
 
+function KpiTile({
+  label,
+  value,
+  icon,
+  sub,
+}: {
+  label: string;
+  value: string | number;
+  icon?: React.ReactNode;
+  sub?: string;
+}): React.ReactElement {
+  return (
+    <div className="kz-kpi">
+      <div className="flex items-center justify-between">
+        <p className="kz-kpi-label">{label}</p>
+        {icon && <span className="text-kartz-cyan opacity-70">{icon}</span>}
+      </div>
+      <p className="kz-kpi-value">{value}</p>
+      {sub && <p className="kz-kpi-sub">{sub}</p>}
+    </div>
+  );
+}
+
 export default function Admin(): React.ReactElement {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [users, setUsers] = useState<AdminUser[]>([]);
@@ -115,8 +139,8 @@ export default function Admin(): React.ReactElement {
 
   if (loading) {
     return (
-      <div className="p-10 text-kartz-mute">
-        <Spinner />
+      <div className="p-10 flex justify-center">
+        <Spinner size={20} />
       </div>
     );
   }
@@ -131,42 +155,46 @@ export default function Admin(): React.ReactElement {
   );
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 kz-fade-up">
       <div>
-        <h1 className="font-display text-3xl">admin</h1>
-        <p className="text-kartz-mute text-sm">
-          marketplace overview and user management.
-        </p>
+        <h1 className="kz-section-title text-3xl">admin</h1>
+        <p className="kz-section-sub">marketplace overview and user management.</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-        <Card label="users" value={stats.users} />
-        <Card label="artists" value={stats.artists} />
-        <Card label="artworks" value={stats.artworks} />
-        <Card label="total sales" value={formatRWF(stats.totalSales)} />
-        <Card label="total commission" value={formatRWF(stats.totalCommission)} />
+      <div className="kz-kpi-grid">
+        <KpiTile label="users" value={stats.users} icon={<Users size={14} />} />
+        <KpiTile label="artists" value={stats.artists} icon={<Palette size={14} />} />
+        <KpiTile label="artworks" value={stats.artworks} icon={<BarChart3 size={14} />} />
+        <KpiTile
+          label="total sales"
+          value={formatRWF(stats.totalSales)}
+          icon={<TrendingUp size={14} />}
+        />
+        <KpiTile
+          label="platform commission"
+          value={formatRWF(stats.totalCommission)}
+          icon={<Wallet size={14} />}
+          sub="5% of every sale"
+        />
+        <KpiTile
+          label="orders completed"
+          value={stats.totalCompleted}
+          icon={<ShoppingBag size={14} />}
+        />
       </div>
 
       <div className="kz-card p-5">
-        <h2 className="font-display text-lg mb-3">sales · last 7 days</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="kz-section-title text-lg">sales · last 7 days</h2>
+          <span className="text-xs text-kartz-mute">rwf</span>
+        </div>
         <div className="w-full h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={series}>
-              <CartesianGrid stroke="#1a1a1d" strokeDasharray="3 3" />
-              <XAxis dataKey="date" stroke="#9da1a5" fontSize={12} />
-              <YAxis
-                stroke="#9da1a5"
-                fontSize={12}
-                tickFormatter={(v) => `${Math.round(Number(v) / 1000)}k`}
-              />
-              <Tooltip
-                contentStyle={{
-                  background: '#0d0d0f',
-                  border: '1px solid #1a1a1d',
-                  color: '#fff',
-                }}
-                formatter={(v: number) => formatRWF(v)}
-              />
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" fontSize={12} />
+              <YAxis fontSize={12} tickFormatter={(v) => `${Math.round(Number(v) / 1000)}k`} />
+              <Tooltip formatter={(v: number) => formatRWF(v)} />
               <Line
                 type="monotone"
                 dataKey="sales"
@@ -181,7 +209,7 @@ export default function Admin(): React.ReactElement {
       </div>
 
       <div className="kz-card p-5">
-        <h2 className="font-display text-lg mb-3">recent orders</h2>
+        <h2 className="kz-section-title text-lg mb-3">recent orders</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-kartz-mute text-left">
@@ -204,23 +232,16 @@ export default function Admin(): React.ReactElement {
                   <td className="py-2 pr-4 text-right text-kartz-cyan">
                     {formatRWF(o.amount)}
                   </td>
-                  <td className="py-2 pr-4 text-right">
-                    {formatRWF(o.commission)}
-                  </td>
+                  <td className="py-2 pr-4 text-right">{formatRWF(o.commission)}</td>
                   <td className="py-2 pr-4">
                     <StatusPill s={o.status} />
                   </td>
-                  <td className="py-2 text-xs text-kartz-mute">
-                    {timeAgo(o.createdAt)}
-                  </td>
+                  <td className="py-2 text-xs text-kartz-mute">{timeAgo(o.createdAt)}</td>
                 </tr>
               ))}
               {(!stats.recentOrders || stats.recentOrders.length === 0) && (
                 <tr>
-                  <td
-                    className="py-4 text-kartz-mute"
-                    colSpan={7}
-                  >
+                  <td className="py-4 text-kartz-mute" colSpan={7}>
                     no orders yet.
                   </td>
                 </tr>
@@ -231,10 +252,8 @@ export default function Admin(): React.ReactElement {
       </div>
 
       <div className="kz-card p-5">
-        <h2 className="font-display text-lg mb-3">users</h2>
-        {updateErr && (
-          <p className="text-sm text-red-400 mb-2">{updateErr}</p>
-        )}
+        <h2 className="kz-section-title text-lg mb-3">users</h2>
+        {updateErr && <p className="text-sm text-red-400 mb-2">{updateErr}</p>}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-kartz-mute text-left">
@@ -258,9 +277,7 @@ export default function Admin(): React.ReactElement {
                       className="kz-input py-1 text-xs w-auto"
                       value={u.role}
                       disabled={updatingId === u._id}
-                      onChange={(e) =>
-                        changeRole(u, e.target.value as Role)
-                      }
+                      onChange={(e) => changeRole(u, e.target.value as Role)}
                     >
                       <option value="user">user</option>
                       <option value="artist">artist</option>
@@ -285,21 +302,6 @@ export default function Admin(): React.ReactElement {
           </table>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Card({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}): React.ReactElement {
-  return (
-    <div className="kz-card p-4">
-      <p className="text-xs text-kartz-mute">{label}</p>
-      <p className="font-display text-2xl text-kartz-cyan mt-1">{value}</p>
     </div>
   );
 }
