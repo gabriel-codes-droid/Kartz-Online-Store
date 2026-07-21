@@ -8,7 +8,7 @@ import type { Artwork, Order, OrderStatus, User } from '../types';
 
 function StatusPill({ s }: { s: OrderStatus }): React.ReactElement {
   const map: Record<OrderStatus, string> = {
-    pending: 'border-kartz-cyan/40 text-kartz-cyan bg-kartz-cyan/10',
+    pending: 'border-kartz-amber/40 text-kartz-amber bg-kartz-amber/10',
     completed: 'border-emerald-400/40 text-emerald-300 bg-emerald-400/10',
     failed: 'border-red-400/40 text-red-300 bg-red-400/10',
     cancelled: 'border-kartz-line text-kartz-mute bg-black/40',
@@ -103,7 +103,7 @@ export default function OrderDetail(): React.ReactElement {
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
       <Link
         to="/orders"
-        className="text-sm text-kartz-mute hover:text-kartz-cyan"
+        className="text-sm text-kartz-mute hover:text-kartz-amber"
       >
         ← back
       </Link>
@@ -128,12 +128,12 @@ export default function OrderDetail(): React.ReactElement {
           {art._id ? (
             <Link
               to={`/art/${art._id}`}
-              className="font-display text-xl text-white hover:text-kartz-cyan"
+              className="font-display text-xl text-kartz-cream hover:text-kartz-amber"
             >
               {art.title || 'artwork'}
             </Link>
           ) : (
-            <p className="font-display text-xl text-white">
+            <p className="font-display text-xl text-kartz-cream">
               {art.title || 'artwork'}
             </p>
           )}
@@ -142,7 +142,7 @@ export default function OrderDetail(): React.ReactElement {
               by{' '}
               <Link
                 to={`/artist/${artist._id}`}
-                className="text-kartz-cyan hover:underline"
+                className="text-kartz-amber hover:underline"
               >
                 {artist.displayName || artist.username || 'unknown'}
               </Link>
@@ -159,7 +159,7 @@ export default function OrderDetail(): React.ReactElement {
         <h2 className="font-display text-lg mb-3">payment breakdown</h2>
         <div className="grid grid-cols-2 gap-y-2 text-sm">
           <p className="text-kartz-mute">amount</p>
-          <p className="text-right text-kartz-cyan font-display">
+          <p className="text-right text-kartz-amber font-display">
             {formatRWF(order.amount)}
           </p>
           <p className="text-kartz-mute">platform commission (5%)</p>
@@ -188,13 +188,13 @@ export default function OrderDetail(): React.ReactElement {
       </div>
 
       {order.status === 'pending' && (
-        <div className="kz-card p-5 border-kartz-cyan/40">
-          <h2 className="font-display text-lg mb-2 text-kartz-cyan">
+        <div className="kz-card p-5 border-kartz-amber/40">
+          <h2 className="font-display text-lg mb-2 text-kartz-amber">
             awaiting mobile-money confirmation
           </h2>
           <p className="text-sm text-kartz-mute mb-4">
             we created a flutterwave charge for{' '}
-            <span className="text-white">{order.customerPhone}</span>. approve
+            <span className="text-kartz-cream">{order.customerPhone}</span>. approve
             the prompt on your phone, then come back and check the status.
           </p>
           <div className="flex flex-wrap gap-3">

@@ -62,9 +62,9 @@ export default function Login(): React.ReactElement {
         <div className="kz-auth-emoji" style={{ bottom: '10%', right: '12%' }}>🖌️</div>
 
         <Link to="/" className="relative flex items-center gap-2 z-10">
-          <span className="inline-block w-3 h-3 rounded-full bg-kartz-cyan shadow-glowSm" />
+          <span className="inline-block w-3 h-3 rounded-full bg-kartz-amber shadow-glowSm" />
           <span className="font-display text-xl tracking-wide">
-            kartz<span className="text-kartz-cyan">.</span>
+            kartz<span className="text-kartz-amber">.</span>
           </span>
         </Link>
 
@@ -73,7 +73,7 @@ export default function Login(): React.ReactElement {
             <Sparkles size={12} /> trusted by 1,200+ rwanda creators
           </span>
           <h2 className="font-display text-3xl sm:text-4xl xl:text-5xl leading-tight font-bold mb-4">
-            welcome <span className="text-kartz-cyan">back</span> to kartz.
+            welcome <span className="text-kartz-amber">back</span> to kartz.
           </h2>
           <p className="text-kartz-mute text-base sm:text-lg">
             log in to keep collecting, sell your art, or check on the orders
@@ -87,15 +87,15 @@ export default function Login(): React.ReactElement {
 
           <div className="mt-8 grid grid-cols-3 gap-3">
             <div className="rounded-lg border border-kartz-line bg-kartz-panel/60 p-3 text-center">
-              <Wallet size={18} className="text-kartz-cyan mx-auto mb-1" />
+              <Wallet size={18} className="text-kartz-amber mx-auto mb-1" />
               <p className="text-[10px] uppercase tracking-wider text-kartz-mute">momo · airtel</p>
             </div>
             <div className="rounded-lg border border-kartz-line bg-kartz-panel/60 p-3 text-center">
-              <Globe2 size={18} className="text-kartz-cyan mx-auto mb-1" />
+              <Globe2 size={18} className="text-kartz-amber mx-auto mb-1" />
               <p className="text-[10px] uppercase tracking-wider text-kartz-mute">cards · bank</p>
             </div>
             <div className="rounded-lg border border-kartz-line bg-kartz-panel/60 p-3 text-center">
-              <ShieldCheck size={18} className="text-kartz-cyan mx-auto mb-1" />
+              <ShieldCheck size={18} className="text-kartz-amber mx-auto mb-1" />
               <p className="text-[10px] uppercase tracking-wider text-kartz-mute">secure pay</p>
             </div>
           </div>
@@ -111,9 +111,9 @@ export default function Login(): React.ReactElement {
         <div className="w-full max-w-md">
           <div className="lg:hidden flex justify-center mb-6">
             <Link to="/" className="flex items-center gap-2">
-              <span className="inline-block w-3 h-3 rounded-full bg-kartz-cyan shadow-glowSm" />
+              <span className="inline-block w-3 h-3 rounded-full bg-kartz-amber shadow-glowSm" />
               <span className="font-display text-xl tracking-wide">
-                kartz<span className="text-kartz-cyan">.</span>
+                kartz<span className="text-kartz-amber">.</span>
               </span>
             </Link>
           </div>
@@ -121,7 +121,7 @@ export default function Login(): React.ReactElement {
           <h1 className="kz-section-title text-2xl sm:text-3xl">welcome back</h1>
           <p className="kz-section-sub mb-6">
             new here?{' '}
-            <Link to="/signup" className="text-kartz-cyan hover:underline font-semibold">
+            <Link to="/signup" className="text-kartz-amber hover:underline font-semibold">
               create an account
             </Link>
           </p>
@@ -176,7 +176,7 @@ export default function Login(): React.ReactElement {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-kartz-mute hover:text-kartz-cyan transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-kartz-mute hover:text-kartz-amber transition-colors"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -198,7 +198,7 @@ export default function Login(): React.ReactElement {
               forgot your password?{' '}
               <a
                 href="mailto:hello@kartz.local"
-                className="text-kartz-cyan hover:underline"
+                className="text-kartz-amber hover:underline"
               >
                 contact support
               </a>

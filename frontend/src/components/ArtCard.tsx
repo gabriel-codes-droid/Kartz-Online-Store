@@ -1,15 +1,20 @@
-// ArtCard.tsx - one artwork in a grid
+// ArtCard.tsx - one artwork as a museum-framed piece
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Eye } from 'lucide-react';
 import { formatRWF, timeAgo } from './format';
 import type { Artwork } from '../types';
 
 interface ArtCardProps {
   art: Artwork;
+  index?: number;       // 0-based position on the wall (for catalog number)
+  variant?: 'hero' | 'tall' | 'wide' | 'square' | 'short';
 }
 
-export default function ArtCard({ art }: ArtCardProps): React.ReactElement {
+export default function ArtCard({
+  art,
+  index,
+  variant = 'square',
+}: ArtCardProps): React.ReactElement {
   const artist =
     typeof art.artistId === 'object' && art.artistId !== null
       ? art.artistId
@@ -17,58 +22,54 @@ export default function ArtCard({ art }: ArtCardProps): React.ReactElement {
   const title = art.title || 'untitled';
   const img =
     art.imageUrl ||
-    `https://placehold.co/600x400/0d0d0f/00ffff?text=${encodeURIComponent(title)}`;
+    `https://placehold.co/600x400/0d0d0f/E8B86A?text=${encodeURIComponent(title)}`;
+  const catalogNo =
+    typeof index === 'number'
+      ? `№ ${String(index + 1).padStart(2, '0')}`
+      : null;
+  const variantClass = `kz-frame--${variant}`;
+
   return (
-    <Link
-      to={`/art/${art._id || art.id}`}
-      className="kz-card overflow-hidden group block relative"
-    >
-      <div className="aspect-[4/3] overflow-hidden bg-black/40 relative">
-        <img
-          src={img}
-          alt={title}
-          loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-[1.04] transition duration-500"
-          onError={(e) => {
-            e.currentTarget.src = `https://placehold.co/600x400/0d0d0f/00ffff?text=${encodeURIComponent(
-              title
-            )}`;
-          }}
-        />
-        {/* hover overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none">
-          <span className="text-white text-xs font-semibold inline-flex items-center gap-1">
-            <Eye size={12} /> view
-          </span>
+    <div className={`kz-frame ${variantClass}`}>
+      <Link
+        to={`/art/${art._id || art.id}`}
+        className="absolute inset-0 z-1"
+        aria-label={title}
+      />
+
+      {catalogNo && <span className="kz-frame__corner">{catalogNo}</span>}
+      {!art.sold && (
+        <span className="kz-frame__price">{formatRWF(art.price)}</span>
+      )}
+      {art.sold && (
+        <div className="kz-frame__sold">
+          <span>sold</span>
         </div>
-        {art.sold && (
-          <span className="absolute top-2 left-2 kz-pill bg-red-400/20 text-red-300 border-red-400/40">
-            sold
-          </span>
-        )}
-      </div>
-      <div className="p-3">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-display text-white text-lg leading-tight line-clamp-1 group-hover:text-kartz-cyan transition-colors">
-            {title}
-          </h3>
-          <span className="kz-pill whitespace-nowrap">{formatRWF(art.price)}</span>
+      )}
+
+      <img
+        src={img}
+        alt={title}
+        loading="lazy"
+        onError={(e) => {
+          e.currentTarget.src = `https://placehold.co/600x400/0d0d0f/E8B86A?text=${encodeURIComponent(
+            title,
+          )}`;
+        }}
+      />
+
+      <div className="kz-museum-label">
+        <div className="kz-museum-label__cat">
+          <span className="dot" />
+          {art.category}
         </div>
-        <p className="text-sm text-kartz-mute mt-1 truncate">
-          by {artist.displayName || artist.username || 'unknown'}
-        </p>
-        <div className="mt-2 flex items-center justify-between text-xs text-kartz-mute">
-          <span className="capitalize">{art.category}</span>
-          <span className="inline-flex items-center gap-2">
-            {art.likes !== undefined && art.likes > 0 && (
-              <span className="inline-flex items-center gap-0.5">
-                <Heart size={11} /> {art.likes}
-              </span>
-            )}
-            <span>{timeAgo(art.createdAt)}</span>
-          </span>
+        <div className="kz-museum-label__title">{title}</div>
+        <div className="kz-museum-label__artist">
+          <strong>{artist.displayName || artist.username || 'unknown artist'}</strong>
+          {' · '}
+          {timeAgo(art.createdAt)}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

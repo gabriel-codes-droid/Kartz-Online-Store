@@ -78,7 +78,7 @@ export default function BuyModal({ art, onClose }: BuyModalProps): React.ReactEl
           </div>
           <button
             onClick={onClose}
-            className="text-kartz-mute hover:text-white"
+            className="text-kartz-mute hover:text-kartz-cream"
             aria-label="close"
           >
             ×

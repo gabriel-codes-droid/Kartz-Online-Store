@@ -112,7 +112,7 @@ export default function Upload(): React.ReactElement {
                 />
                 <span
                   className={`text-xs capitalize ${
-                    status === 'idle' ? 'text-kartz-mute' : 'text-white'
+                    status === 'idle' ? 'text-kartz-mute' : 'text-kartz-cream'
                   }`}
                 >
                   {label}
@@ -136,8 +136,8 @@ export default function Upload(): React.ReactElement {
           onClick={() => fileInputRef.current?.click()}
           className={`kz-card p-6 cursor-pointer text-center transition ${
             dragging
-              ? 'border-kartz-cyan shadow-glow'
-              : 'hover:border-kartz-cyan/40'
+              ? 'border-kartz-amber shadow-glow'
+              : 'hover:border-kartz-amber/40'
           }`}
         >
           {preview ? (
@@ -153,8 +153,8 @@ export default function Upload(): React.ReactElement {
             </div>
           ) : (
             <div className="py-10 text-kartz-mute">
-              <UploadCloud size={36} className="mx-auto text-kartz-cyan mb-2" />
-              <p className="text-kartz-cyan font-display text-lg">drop image here</p>
+              <UploadCloud size={36} className="mx-auto text-kartz-amber mb-2" />
+              <p className="text-kartz-amber font-display text-lg">drop image here</p>
               <p className="text-sm">or click to choose a file</p>
               <p className="text-xs mt-2">jpg / png / webp / gif · up to 8MB</p>
             </div>

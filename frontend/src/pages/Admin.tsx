@@ -50,7 +50,7 @@ function artistRef(o: AdminRecentOrder): string {
 
 function StatusPill({ s }: { s: OrderStatus }): React.ReactElement {
   const map: Record<OrderStatus, string> = {
-    pending: 'border-kartz-cyan/40 text-kartz-cyan bg-kartz-cyan/10',
+    pending: 'border-kartz-amber/40 text-kartz-amber bg-kartz-amber/10',
     completed: 'border-emerald-400/40 text-emerald-300 bg-emerald-400/10',
     failed: 'border-red-400/40 text-red-300 bg-red-400/10',
     cancelled: 'border-kartz-line text-kartz-mute bg-black/40',
@@ -79,7 +79,7 @@ function KpiTile({
     <div className="kz-kpi">
       <div className="flex items-center justify-between">
         <p className="kz-kpi-label">{label}</p>
-        {icon && <span className="text-kartz-cyan opacity-70">{icon}</span>}
+        {icon && <span className="text-kartz-amber opacity-70">{icon}</span>}
       </div>
       <p className="kz-kpi-value">{value}</p>
       {sub && <p className="kz-kpi-sub">{sub}</p>}
@@ -229,7 +229,7 @@ export default function Admin(): React.ReactElement {
                   <td className="py-2 pr-4">{orderRef(o)}</td>
                   <td className="py-2 pr-4">{buyerRef(o)}</td>
                   <td className="py-2 pr-4">{artistRef(o)}</td>
-                  <td className="py-2 pr-4 text-right text-kartz-cyan">
+                  <td className="py-2 pr-4 text-right text-kartz-amber">
                     {formatRWF(o.amount)}
                   </td>
                   <td className="py-2 pr-4 text-right">{formatRWF(o.commission)}</td>

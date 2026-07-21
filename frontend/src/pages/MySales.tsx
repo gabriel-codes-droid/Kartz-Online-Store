@@ -14,7 +14,7 @@ interface Row {
 
 function StatusPill({ s }: { s: OrderStatus }): React.ReactElement {
   const map: Record<OrderStatus, string> = {
-    pending: 'border-kartz-cyan/40 text-kartz-cyan bg-kartz-cyan/10',
+    pending: 'border-kartz-amber/40 text-kartz-amber bg-kartz-amber/10',
     completed: 'border-emerald-400/40 text-emerald-300 bg-emerald-400/10',
     failed: 'border-red-400/40 text-red-300 bg-red-400/10',
     cancelled: 'border-kartz-line text-kartz-mute bg-black/40',
@@ -96,7 +96,7 @@ export default function MySales(): React.ReactElement {
             <Link
               to={`/order/${order.id}`}
               key={order.id}
-              className="kz-card p-3 flex items-center gap-4 hover:border-kartz-cyan/60"
+              className="kz-card p-3 flex items-center gap-4 hover:border-kartz-amber/60"
             >
               <div className="w-20 h-16 bg-black/40 rounded-md overflow-hidden flex-shrink-0">
                 <img
@@ -106,7 +106,7 @@ export default function MySales(): React.ReactElement {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display text-white truncate">
+                <p className="font-display text-kartz-cream truncate">
                   {art.title || 'artwork'}
                 </p>
                 <p className="text-xs text-kartz-mute">
@@ -115,13 +115,13 @@ export default function MySales(): React.ReactElement {
                 </p>
                 <p className="text-xs text-kartz-mute">
                   commission {formatRWF(order.commission)} · you earn{' '}
-                  <span className="text-kartz-cyan">
+                  <span className="text-kartz-amber">
                     {formatRWF(order.artistEarnings)}
                   </span>
                 </p>
               </div>
               <div className="text-right flex flex-col items-end gap-1">
-                <p className="text-kartz-cyan font-display">
+                <p className="text-kartz-amber font-display">
                   {formatRWF(order.amount)}
                 </p>
                 <StatusPill s={order.status} />

@@ -115,7 +115,7 @@ export default function ArtworkDetail(): React.ReactElement {
     <div className="max-w-5xl mx-auto px-4 py-8 kz-fade-up">
       <Link
         to="/explore"
-        className="inline-flex items-center gap-1 text-sm text-kartz-mute hover:text-kartz-cyan transition-colors"
+        className="inline-flex items-center gap-1 text-sm text-kartz-mute hover:text-kartz-amber transition-colors"
       >
         <ArrowLeft size={14} /> back to explore
       </Link>
@@ -140,7 +140,7 @@ export default function ArtworkDetail(): React.ReactElement {
           <span className="kz-pill capitalize mb-3">{art.category}</span>
           <h1 className="font-display text-3xl sm:text-4xl leading-tight">{art.title}</h1>
           <p className="text-kartz-mute mt-1 text-sm">listed {timeAgo(art.createdAt)}</p>
-          <p className="text-kartz-cyan text-3xl font-display mt-3">{formatRWF(art.price)}</p>
+          <p className="text-kartz-amber text-3xl font-display mt-3">{formatRWF(art.price)}</p>
 
           {/* Engagement row */}
           <div className="flex items-center gap-2 mt-4">
@@ -148,8 +148,8 @@ export default function ArtworkDetail(): React.ReactElement {
               onClick={handleLike}
               className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm transition-colors ${
                 liked
-                  ? 'border-kartz-cyan text-kartz-cyan bg-kartz-cyan/10'
-                  : 'border-kartz-line text-kartz-mute hover:text-white hover:border-white/30'
+                  ? 'border-kartz-amber text-kartz-amber bg-kartz-amber/10'
+                  : 'border-kartz-line text-kartz-mute hover:text-kartz-cream hover:border-white/30'
               }`}
               aria-pressed={liked}
             >
@@ -158,7 +158,7 @@ export default function ArtworkDetail(): React.ReactElement {
             </button>
             <button
               onClick={handleShare}
-              className="flex items-center gap-2 px-3 py-2 rounded-md border border-kartz-line text-kartz-mute hover:text-white hover:border-white/30 text-sm transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-md border border-kartz-line text-kartz-mute hover:text-kartz-cream hover:border-white/30 text-sm transition-colors"
             >
               <Share2 size={16} />
               <span>{shareCount}</span>
@@ -167,7 +167,7 @@ export default function ArtworkDetail(): React.ReactElement {
 
           {/* Description */}
           <div className="mt-5 kz-card p-4">
-            <p className="text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
+            <p className="text-sm text-kartz-cream/90 whitespace-pre-wrap leading-relaxed">
               {art.description || 'no description.'}
             </p>
           </div>
@@ -175,14 +175,14 @@ export default function ArtworkDetail(): React.ReactElement {
           {/* Artist card */}
           {artistId && (
             <div className="kz-card p-3 mt-4 flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-kartz-cyan/15 border border-kartz-cyan/40 flex items-center justify-center text-kartz-cyan font-display text-lg shrink-0">
+              <div className="w-11 h-11 rounded-full bg-kartz-amber/15 border border-kartz-amber/40 flex items-center justify-center text-kartz-amber font-display text-lg shrink-0">
                 {(artist.displayName || artist.username || '?')[0].toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-kartz-mute">artist</p>
                 <Link
                   to={`/artist/${artistId}`}
-                  className="text-kartz-cyan hover:underline font-semibold"
+                  className="text-kartz-amber hover:underline font-semibold"
                 >
                   {artist.displayName || artist.username || 'unknown'}
                 </Link>

@@ -12,7 +12,7 @@ export default function Spinner({
 }: SpinnerProps): React.ReactElement {
   return (
     <span
-      className={`inline-block animate-spin rounded-full border-2 border-kartz-cyan border-r-transparent ${className}`}
+      className={`inline-block animate-spin rounded-full border-2 border-kartz-amber border-r-transparent ${className}`}
       style={{ width: size, height: size }}
       aria-label="loading"
     />

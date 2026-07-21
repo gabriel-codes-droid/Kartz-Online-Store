@@ -65,13 +65,13 @@ export default function ArtistProfile(): React.ReactElement {
           <img
             src={avatar}
             alt={name}
-            className="w-16 h-16 rounded-full object-cover border border-kartz-cyan/40"
+            className="w-16 h-16 rounded-full object-cover border border-kartz-amber/40"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
           />
         ) : (
-          <div className="w-16 h-16 rounded-full bg-kartz-cyan/15 border border-kartz-cyan/40 flex items-center justify-center text-kartz-cyan font-display text-2xl">
+          <div className="w-16 h-16 rounded-full bg-kartz-amber/15 border border-kartz-amber/40 flex items-center justify-center text-kartz-amber font-display text-2xl">
             {initial}
           </div>
         )}
@@ -81,7 +81,7 @@ export default function ArtistProfile(): React.ReactElement {
             <p className="text-xs text-kartz-mute">@{artist.username}</p>
           )}
           {bio && (
-            <p className="text-sm text-white/80 mt-2 max-w-2xl whitespace-pre-wrap">
+            <p className="text-sm text-kartz-cream/80 mt-2 max-w-2xl whitespace-pre-wrap">
               {bio}
             </p>
           )}
@@ -101,7 +101,7 @@ export default function ArtistProfile(): React.ReactElement {
       )}
 
       <div className="mt-8 text-sm text-kartz-mute">
-        <Link to="/explore" className="text-kartz-cyan hover:underline">
+        <Link to="/explore" className="text-kartz-amber hover:underline">
           ← keep exploring
         </Link>
       </div>

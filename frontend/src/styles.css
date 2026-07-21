@@ -6,23 +6,36 @@
 html, body, #root { height: 100%; }
 body {
   margin: 0;
-  color: #fff;
+  color: #F5E6CC;
   font-family: Inter, system-ui, sans-serif;
   background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(0,255,255,0.07), transparent 60%),
-    radial-gradient(900px 500px at 100% 100%, rgba(0,255,255,0.04), transparent 70%),
-    linear-gradient(180deg, #030303 0%, #070707 100%);
+    radial-gradient(1200px 600px at 50% -10%, rgba(232, 184, 106, 0.06), transparent 60%),
+    radial-gradient(900px 500px at 100% 100%, rgba(139, 58, 47, 0.05), transparent 70%),
+    linear-gradient(180deg, #0a0908 0%, #0d0c0a 50%, #0a0908 100%);
   background-attachment: fixed;
   min-height: 100vh;
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* Subtle film-grain texture (art-site feel) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.9  0 0 0 0 0.7  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
 }
 
 /* Light mode */
 html.light body {
-  color: #1e293b;
+  color: #1c1917;
   background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(0,188,212,0.05), transparent 60%),
-    radial-gradient(900px 500px at 100% 100%, rgba(0,188,212,0.03), transparent 70%),
-    linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+    radial-gradient(1200px 600px at 50% -10%, rgba(201, 147, 62, 0.07), transparent 60%),
+    radial-gradient(900px 500px at 100% 100%, rgba(122, 46, 37, 0.04), transparent 70%),
+    linear-gradient(180deg, #faf6ef 0%, #f3eddf 50%, #faf6ef 100%);
 }
 
 @layer components {
@@ -30,65 +43,65 @@ html.light body {
     @apply bg-kartz-panel border border-kartz-line rounded-xl transition;
   }
   .kz-card:hover {
-    box-shadow: 0 0 16px rgba(0, 255, 255, 0.35), 0 0 32px rgba(0, 255, 255, 0.12);
-    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 16px rgba(232, 184, 106, 0.25), 0 0 32px rgba(232, 184, 106, 0.08);
+    border-color: rgba(232, 184, 106, 0.45);
   }
   html.light .kz-card {
     @apply bg-light-panel border-light-line;
   }
   html.light .kz-card:hover {
-    box-shadow: 0 0 16px rgba(0, 188, 212, 0.25), 0 0 32px rgba(0, 188, 212, 0.1);
-    border-color: rgba(0, 188, 212, 0.4);
+    box-shadow: 0 0 16px rgba(201, 147, 62, 0.20), 0 0 32px rgba(201, 147, 62, 0.07);
+    border-color: rgba(201, 147, 62, 0.40);
   }
   .kz-btn {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold
-           bg-kartz-cyan text-kartz-bg hover:shadow-glow transition;
+           bg-kartz-amber text-kartz-bg hover:shadow-glow transition;
   }
   html.light .kz-btn {
-    @apply bg-light-cyan text-white hover:shadow-glowLight;
+    @apply bg-light-amber text-white hover:shadow-glowLight;
   }
   .kz-btn-ghost {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold
-           border border-kartz-line text-white hover:border-kartz-cyan hover:shadow-glowSm transition;
+           border border-kartz-line text-kartz-cream hover:border-kartz-amber hover:shadow-glowSm hover:text-kartz-amber transition;
   }
   html.light .kz-btn-ghost {
-    @apply border-light-line text-slate-700 hover:border-light-cyan hover:text-light-cyan hover:shadow-glowSmLight;
+    @apply border-light-line text-stone-700 hover:border-light-amber hover:text-light-amber hover:shadow-glowSmLight;
   }
   .kz-input {
     @apply w-full rounded-md bg-black/60 border border-kartz-line px-3 py-2
-           text-white placeholder:text-kartz-mute focus:outline-none
-           focus:border-kartz-cyan focus:shadow-glowSm;
+           text-kartz-cream placeholder:text-kartz-mute focus:outline-none
+           focus:border-kartz-amber focus:shadow-glowSm;
   }
   html.light .kz-input {
-    @apply bg-white/80 border-light-line text-slate-800 placeholder:text-light-mute
-           focus:border-light-cyan focus:shadow-glowSmLight;
+    @apply bg-white/80 border-light-line text-stone-800 placeholder:text-light-mute
+           focus:border-light-amber focus:shadow-glowSmLight;
   }
   .kz-label { @apply text-sm text-kartz-mute mb-1 block; }
   html.light .kz-label { @apply text-light-mute; }
   .kz-pill {
     @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs
-           bg-kartz-cyan/10 text-kartz-cyan border border-kartz-cyan/30;
+           bg-kartz-amber/10 text-kartz-amber border border-kartz-amber/30;
   }
   html.light .kz-pill {
-    @apply bg-light-cyan/10 text-light-cyan border-light-cyan/30;
+    @apply bg-light-amber/10 text-light-amber border-light-amber/30;
   }
 }
 
 /* Subtle scrolling glow line for the hero */
 .kz-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(232, 184, 106, 0.4), transparent);
 }
 html.light .kz-divider {
-  background: linear-gradient(90deg, transparent, rgba(0,188,212,0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(201, 147, 62, 0.3), transparent);
 }
 
 /* Prevent layout shift while images load */
 img { background: #0a0a0c; }
-html.light img { background: #e2e8f0; }
+html.light img { background: #e7e0d2; }
 
 /* ============================================================
-   === New polish layer (split-screen auth, KPI cards, etc.) ===
+   === Polish layer (split-screen auth, KPI cards, etc.) ===
    ============================================================ */
 
 /* --- Split-screen auth layout --- */
@@ -105,10 +118,10 @@ html.light img { background: #e2e8f0; }
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(900px 500px at 80% 0%, rgba(0,255,255,0.18), transparent 60%),
-    radial-gradient(700px 400px at 0% 100%, rgba(0,255,255,0.10), transparent 60%),
-    linear-gradient(135deg, #050507 0%, #0a0a0d 50%, #050507 100%);
-  color: #fff;
+    radial-gradient(900px 500px at 80% 0%, rgba(232, 184, 106, 0.18), transparent 60%),
+    radial-gradient(700px 400px at 0% 100%, rgba(139, 58, 47, 0.10), transparent 60%),
+    linear-gradient(135deg, #0a0908 0%, #15120f 50%, #0a0908 100%);
+  color: #F5E6CC;
   padding: 2.5rem;
   display: none;
   flex-direction: column;
@@ -116,17 +129,17 @@ html.light img { background: #e2e8f0; }
 }
 html.light .kz-auth-side {
   background:
-    radial-gradient(900px 500px at 80% 0%, rgba(0,188,212,0.18), transparent 60%),
-    radial-gradient(700px 400px at 0% 100%, rgba(0,188,212,0.10), transparent 60%),
-    linear-gradient(135deg, #f1f5f9 0%, #ffffff 50%, #f1f5f9 100%);
-  color: #0f172a;
+    radial-gradient(900px 500px at 80% 0%, rgba(201, 147, 62, 0.15), transparent 60%),
+    radial-gradient(700px 400px at 0% 100%, rgba(122, 46, 37, 0.08), transparent 60%),
+    linear-gradient(135deg, #faf6ef 0%, #ffffff 50%, #faf6ef 100%);
+  color: #1c1917;
 }
 @media (min-width: 1024px) {
   .kz-auth-side { display: flex; }
 }
 .kz-auth-emoji {
   position: absolute;
-  opacity: 0.12;
+  opacity: 0.10;
   font-size: 7rem;
   user-select: none;
   pointer-events: none;
@@ -142,7 +155,7 @@ html.light .kz-auth-side {
 @media (min-width: 768px) {
   .kz-auth-form-wrap { padding: 3rem 2rem; }
 }
-html.light .kz-auth-form-wrap { background: #f8fafc; }
+html.light .kz-auth-form-wrap { background: #faf6ef; }
 
 /* --- Field error / hint states --- */
 .kz-field-hint {
@@ -150,32 +163,32 @@ html.light .kz-auth-form-wrap { background: #f8fafc; }
   margin-top: 4px;
   color: var(--tw-text-opacity, 1);
 }
-.kz-field-hint.is-mute { color: #9da1a5; }
-html.light .kz-field-hint.is-mute { color: #64748b; }
-.kz-field-hint.is-ok { color: #00ffff; }
-html.light .kz-field-hint.is-ok { color: #00bcd4; }
-.kz-field-hint.is-bad { color: #fca5a5; }
-html.light .kz-field-hint.is-bad { color: #dc2626; }
+.kz-field-hint.is-mute { color: #9b9189; }
+html.light .kz-field-hint.is-mute { color: #78716c; }
+.kz-field-hint.is-ok { color: #E8B86A; }
+html.light .kz-field-hint.is-ok { color: #C9933E; }
+.kz-field-hint.is-bad { color: #d49090; }
+html.light .kz-field-hint.is-bad { color: #8B3A2F; }
 
-.kz-input.is-bad { border-color: #f87171 !important; box-shadow: none !important; }
-html.light .kz-input.is-bad { border-color: #dc2626 !important; }
+.kz-input.is-bad { border-color: #8B3A2F !important; box-shadow: none !important; }
+html.light .kz-input.is-bad { border-color: #7A2E25 !important; }
 
 /* --- Error banner --- */
 .kz-error-banner {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  background: rgba(248, 113, 113, 0.08);
-  border: 1px solid rgba(248, 113, 113, 0.35);
-  color: #fecaca;
+  background: rgba(139, 58, 47, 0.10);
+  border: 1px solid rgba(139, 58, 47, 0.40);
+  color: #e8b8b0;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
 }
 html.light .kz-error-banner {
-  background: rgba(220, 38, 38, 0.06);
-  border-color: rgba(220, 38, 38, 0.3);
-  color: #991b1b;
+  background: rgba(122, 46, 37, 0.06);
+  border-color: rgba(122, 46, 37, 0.30);
+  color: #7A2E25;
 }
 
 /* --- Password strength meter --- */
@@ -187,17 +200,17 @@ html.light .kz-error-banner {
 .kz-strength-seg {
   height: 4px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(232, 184, 106, 0.10);
   transition: background 0.2s;
 }
 html.light .kz-strength-seg { background: rgba(0, 0, 0, 0.08); }
-.kz-strength-seg.on-0 { background: #ef4444; }
-.kz-strength-seg.on-1 { background: #ef4444; }
-.kz-strength-seg.on-2 { background: #f59e0b; }
-.kz-strength-seg.on-3 { background: #00ffff; }
-.kz-strength-seg.on-4 { background: #00ffff; }
-html.light .kz-strength-seg.on-3 { background: #00bcd4; }
-html.light .kz-strength-seg.on-4 { background: #00bcd4; }
+.kz-strength-seg.on-0 { background: #8B3A2F; }
+.kz-strength-seg.on-1 { background: #8B3A2F; }
+.kz-strength-seg.on-2 { background: #C9933E; }
+.kz-strength-seg.on-3 { background: #E8B86A; }
+.kz-strength-seg.on-4 { background: #E8B86A; }
+html.light .kz-strength-seg.on-3 { background: #C9933E; }
+html.light .kz-strength-seg.on-4 { background: #C9933E; }
 
 /* --- KPI grid (admin/artist dashboards) --- */
 .kz-kpi-grid {
@@ -212,73 +225,80 @@ html.light .kz-strength-seg.on-4 { background: #00bcd4; }
   @apply kz-card p-4;
 }
 .kz-kpi-label {
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #9da1a5;
+  letter-spacing: 0.18em;
+  color: #9b9189;
+  font-family: 'JetBrains Mono', monospace;
 }
-html.light .kz-kpi-label { color: #64748b; }
+html.light .kz-kpi-label { color: #78716c; }
 .kz-kpi-value {
   margin-top: 0.5rem;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 1.5rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #00ffff;
+  color: #E8B86A;
+  line-height: 1;
+  font-feature-settings: "lnum";
 }
-html.light .kz-kpi-value { color: #00bcd4; }
+html.light .kz-kpi-value { color: #C9933E; }
 .kz-kpi-sub {
   margin-top: 0.25rem;
   font-size: 11px;
-  color: #9da1a5;
+  color: #9b9189;
 }
-html.light .kz-kpi-sub { color: #64748b; }
+html.light .kz-kpi-sub { color: #78716c; }
 
 /* --- Section title --- */
 .kz-section-title {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.875rem;
+  font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #fff;
+  color: #F5E6CC;
+  letter-spacing: -0.01em;
 }
-html.light .kz-section-title { color: #0f172a; }
+html.light .kz-section-title { color: #1c1917; }
 
 .kz-section-sub {
-  color: #9da1a5;
+  color: #9b9189;
   font-size: 0.875rem;
+  font-style: italic;
+  font-family: 'Playfair Display', Georgia, serif;
 }
-html.light .kz-section-sub { color: #64748b; }
+html.light .kz-section-sub { color: #78716c; }
 
 /* --- Filter chip --- */
 .kz-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.375rem 0.75rem;
+  padding: 0.375rem 0.875rem;
   border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 600;
-  border: 1px solid #1a1a1d;
-  color: #9da1a5;
+  font-weight: 500;
+  border: 1px solid #2a2520;
+  color: #9b9189;
   background: transparent;
   text-transform: capitalize;
   transition: all 0.15s;
   cursor: pointer;
+  letter-spacing: 0.02em;
 }
-.kz-chip:hover { color: #fff; border-color: #2a2a30; }
+.kz-chip:hover { color: #F5E6CC; border-color: #4a3f33; }
 .kz-chip.is-active {
-  border-color: #00ffff;
-  color: #00ffff;
-  background: rgba(0, 255, 255, 0.08);
-  box-shadow: 0 0 6px rgba(0, 255, 255, 0.35);
+  border-color: #E8B86A;
+  color: #0a0908;
+  background: #E8B86A;
+  box-shadow: 0 0 8px rgba(232, 184, 106, 0.35);
 }
-html.light .kz-chip { border-color: #e2e8f0; color: #64748b; }
-html.light .kz-chip:hover { color: #0f172a; border-color: #cbd5e1; }
+html.light .kz-chip { border-color: #e7e0d2; color: #78716c; }
+html.light .kz-chip:hover { color: #1c1917; border-color: #c7bda9; }
 html.light .kz-chip.is-active {
-  border-color: #00bcd4;
-  color: #00bcd4;
-  background: rgba(0, 188, 212, 0.08);
-  box-shadow: 0 0 6px rgba(0, 188, 212, 0.25);
+  border-color: #C9933E;
+  color: #faf6ef;
+  background: #C9933E;
+  box-shadow: 0 0 8px rgba(201, 147, 62, 0.30);
 }
 
 /* --- Profile dropdown --- */
@@ -287,9 +307,9 @@ html.light .kz-chip.is-active {
   right: 0;
   margin-top: 0.5rem;
   min-width: 12rem;
-  background: rgba(13, 13, 15, 0.95);
+  background: rgba(21, 18, 15, 0.97);
   backdrop-filter: blur(8px);
-  border: 1px solid #1a1a1d;
+  border: 1px solid #2a2520;
   border-radius: 0.5rem;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   padding: 0.25rem;
@@ -297,7 +317,7 @@ html.light .kz-chip.is-active {
 }
 html.light .kz-profile-menu {
   background: rgba(255, 255, 255, 0.98);
-  border-color: #e2e8f0;
+  border-color: #e7e0d2;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 .kz-profile-item {
@@ -307,7 +327,7 @@ html.light .kz-profile-menu {
   width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  color: #cbd5e1;
+  color: #d4c8b8;
   border-radius: 0.375rem;
   text-align: left;
   background: transparent;
@@ -315,53 +335,66 @@ html.light .kz-profile-menu {
   border: none;
   cursor: pointer;
 }
-html.light .kz-profile-item { color: #334155; }
-.kz-profile-item:hover { background: rgba(255, 255, 255, 0.05); }
+html.light .kz-profile-item { color: #44403c; }
+.kz-profile-item:hover { background: rgba(232, 184, 106, 0.08); }
 html.light .kz-profile-item:hover { background: rgba(0, 0, 0, 0.04); }
-.kz-profile-item.is-danger { color: #fca5a5; }
-html.light .kz-profile-item.is-danger { color: #dc2626; }
-.kz-profile-item.is-danger:hover { background: rgba(248, 113, 113, 0.1); }
+.kz-profile-item.is-danger { color: #d49090; }
+html.light .kz-profile-item.is-danger { color: #7A2E25; }
+.kz-profile-item.is-danger:hover { background: rgba(139, 58, 47, 0.12); }
 
 /* --- Stat block (big number w/ label) --- */
 .kz-stat-block {
   padding: 1.5rem;
-  border-radius: 0.75rem;
-  background: rgba(0, 255, 255, 0.05);
-  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  background: rgba(232, 184, 106, 0.04);
+  border: 1px solid rgba(232, 184, 106, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+.kz-stat-block::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2rem;
+  height: 1px;
+  background: #E8B86A;
 }
 html.light .kz-stat-block {
-  background: rgba(0, 188, 212, 0.05);
-  border-color: rgba(0, 188, 212, 0.2);
+  background: rgba(201, 147, 62, 0.04);
+  border-color: rgba(201, 147, 62, 0.22);
 }
 .kz-stat-block-value {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 2.25rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #00ffff;
+  color: #E8B86A;
   line-height: 1;
+  font-feature-settings: "lnum";
 }
-html.light .kz-stat-block-value { color: #00bcd4; }
+html.light .kz-stat-block-value { color: #C9933E; }
 .kz-stat-block-label {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
+  margin-top: 0.75rem;
+  font-size: 0.6875rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #9da1a5;
+  letter-spacing: 0.18em;
+  color: #9b9189;
+  font-family: 'JetBrains Mono', monospace;
 }
-html.light .kz-stat-block-label { color: #64748b; }
+html.light .kz-stat-block-label { color: #78716c; }
 
 /* --- Stepper / progress dots --- */
 .kz-step-dot {
   width: 0.625rem;
   height: 0.625rem;
-  border-radius: 9999px;
-  background: #1a1a1d;
+  border-radius: 999px;
+  background: #2a2520;
   transition: all 0.2s;
 }
-.kz-step-dot.is-done { background: #00ffff; box-shadow: 0 0 6px rgba(0,255,255,0.4); }
-.kz-step-dot.is-active { background: #00ffff; box-shadow: 0 0 8px rgba(0,255,255,0.6); transform: scale(1.2); }
-html.light .kz-step-dot { background: #e2e8f0; }
-html.light .kz-step-dot.is-done, html.light .kz-step-dot.is-active { background: #00bcd4; box-shadow: 0 0 6px rgba(0,188,212,0.4); }
+.kz-step-dot.is-done { background: #E8B86A; box-shadow: 0 0 6px rgba(232, 184, 106, 0.45); }
+.kz-step-dot.is-active { background: #E8B86A; box-shadow: 0 0 8px rgba(232, 184, 106, 0.65); transform: scale(1.2); }
+html.light .kz-step-dot { background: #e7e0d2; }
+html.light .kz-step-dot.is-done, html.light .kz-step-dot.is-active { background: #C9933E; box-shadow: 0 0 6px rgba(201, 147, 62, 0.45); }
 
 /* --- Animations --- */
 @keyframes kz-fade-up {
@@ -371,56 +404,58 @@ html.light .kz-step-dot.is-done, html.light .kz-step-dot.is-active { background:
 .kz-fade-up { animation: kz-fade-up 0.35s ease-out both; }
 
 @keyframes kz-pulse-glow {
-  0%, 100% { box-shadow: 0 0 6px rgba(0,255,255,0.35); }
-  50% { box-shadow: 0 0 12px rgba(0,255,255,0.6); }
+  0%, 100% { box-shadow: 0 0 6px rgba(232, 184, 106, 0.35); }
+  50% { box-shadow: 0 0 12px rgba(232, 184, 106, 0.60); }
 }
 .kz-pulse { animation: kz-pulse-glow 2s ease-in-out infinite; }
 html.light .kz-pulse { animation-name: kz-pulse-glow-light; }
 @keyframes kz-pulse-glow-light {
-  0%, 100% { box-shadow: 0 0 6px rgba(0,188,212,0.25); }
-  50% { box-shadow: 0 0 12px rgba(0,188,212,0.5); }
+  0%, 100% { box-shadow: 0 0 6px rgba(201, 147, 62, 0.25); }
+  50% { box-shadow: 0 0 12px rgba(201, 147, 62, 0.50); }
 }
 
 /* --- Empty state --- */
 .kz-empty {
   text-align: center;
   padding: 3rem 1rem;
-  color: #9da1a5;
+  color: #9b9189;
   font-size: 0.875rem;
+  font-style: italic;
+  font-family: 'Playfair Display', Georgia, serif;
 }
-html.light .kz-empty { color: #64748b; }
+html.light .kz-empty { color: #78716c; }
 
 /* --- Recharts dark-mode aware defaults --- */
 .recharts-default-tooltip {
-  background-color: #0d0d0f !important;
-  border: 1px solid #1a1a1d !important;
-  color: #fff !important;
+  background-color: #15120f !important;
+  border: 1px solid #2a2520 !important;
+  color: #F5E6CC !important;
   border-radius: 0.5rem !important;
   font-size: 12px !important;
 }
 html.light .recharts-default-tooltip {
   background-color: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  color: #0f172a !important;
+  border: 1px solid #e7e0d2 !important;
+  color: #1c1917 !important;
 }
 .recharts-cartesian-axis-line,
 .recharts-cartesian-axis-tick-line {
-  stroke: #1a1a1d !important;
+  stroke: #2a2520 !important;
 }
 html.light .recharts-cartesian-axis-line,
 html.light .recharts-cartesian-axis-tick-line {
-  stroke: #e2e8f0 !important;
+  stroke: #e7e0d2 !important;
 }
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #1a1a1d !important;
+  stroke: #2a2520 !important;
 }
 html.light .recharts-cartesian-grid-horizontal line,
 html.light .recharts-cartesian-grid-vertical line {
-  stroke: #e2e8f0 !important;
+  stroke: #e7e0d2 !important;
 }
-.recharts-text { fill: #9da1a5 !important; }
-html.light .recharts-text { fill: #64748b !important; }
+.recharts-text { fill: #9b9189 !important; }
+html.light .recharts-text { fill: #78716c !important; }
 
 /* --- Mobile menu drawer --- */
 .kz-drawer {
@@ -435,12 +470,12 @@ html.light .recharts-text { fill: #64748b !important; }
   right: 0;
   bottom: 0;
   width: 18rem;
-  background: #0a0a0c;
-  border-left: 1px solid #1a1a1d;
+  background: #15120f;
+  border-left: 1px solid #2a2520;
   padding: 1rem;
   overflow-y: auto;
 }
-html.light .kz-drawer-panel { background: #ffffff; border-left-color: #e2e8f0; }
+html.light .kz-drawer-panel { background: #faf6ef; border-left-color: #e7e0d2; }
 
 /* --- Auth visual list --- */
 .kz-feature-list {
@@ -454,19 +489,19 @@ html.light .kz-drawer-panel { background: #ffffff; border-left-color: #e2e8f0; }
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #cbd5e1;
+  color: #d4c8b8;
 }
-html.light .kz-feature-list li { color: #475569; }
+html.light .kz-feature-list li { color: #44403c; }
 .kz-feature-list li::before {
   content: '';
   display: inline-block;
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 9999px;
-  background: #00ffff;
-  box-shadow: 0 0 6px rgba(0,255,255,0.5);
+  border-radius: 999px;
+  background: #E8B86A;
+  box-shadow: 0 0 6px rgba(232, 184, 106, 0.5);
 }
-html.light .kz-feature-list li::before { background: #00bcd4; box-shadow: 0 0 6px rgba(0,188,212,0.5); }
+html.light .kz-feature-list li::before { background: #C9933E; box-shadow: 0 0 6px rgba(201, 147, 62, 0.5); }
 
 /* --- Form row helper --- */
 .kz-form-row {
@@ -476,4 +511,196 @@ html.light .kz-feature-list li::before { background: #00bcd4; box-shadow: 0 0 6p
 }
 @media (min-width: 640px) {
   .kz-form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* --- Text on dark card / modal (light-mode aware) --- */
+.kz-on-card { color: #F5E6CC; }
+.kz-on-card-mute { color: #d4c8b8; }
+html.light .kz-on-card { color: #1c1917; }
+html.light .kz-on-card-mute { color: #57534e; }
+
+/* --- Editorial gallery (Home) --- */
+
+/* Eyebrow text used above section titles */
+.kz-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: #E8B86A;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.kz-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: #E8B86A;
+}
+html.light .kz-eyebrow { color: #C9933E; }
+html.light .kz-eyebrow::before { background: #C9933E; }
+
+/* Gallery wall — asymmetric curated grid */
+.kz-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-flow: dense;
+  gap: 1.25rem;
+}
+@media (min-width: 640px) {
+  .kz-gallery {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 200px;
+  }
+  .kz-gallery > .kz-frame--hero  { grid-column: span 4; grid-row: span 2; }
+  .kz-gallery > .kz-frame--tall   { grid-column: span 2; grid-row: span 2; }
+  .kz-gallery > .kz-frame--wide   { grid-column: span 3; grid-row: span 1; }
+  .kz-gallery > .kz-frame--square { grid-column: span 2; grid-row: span 1; }
+  .kz-gallery > .kz-frame--short  { grid-column: span 2; grid-row: span 1; }
+}
+@media (min-width: 1024px) {
+  .kz-gallery {
+    grid-auto-rows: 220px;
+    gap: 1.5rem;
+  }
+  .kz-gallery > .kz-frame--hero  { grid-column: span 4; grid-row: span 3; }
+  .kz-gallery > .kz-frame--tall   { grid-column: span 2; grid-row: span 3; }
+  .kz-gallery > .kz-frame--wide   { grid-column: span 3; grid-row: span 2; }
+  .kz-gallery > .kz-frame--square { grid-column: span 2; grid-row: span 2; }
+  .kz-gallery > .kz-frame--short  { grid-column: span 3; grid-row: span 1; }
+}
+
+.kz-frame {
+  position: relative;
+  overflow: hidden;
+  background: #15120f;
+  border: 1px solid #2a2520;
+  transition: all 0.3s ease;
+}
+.kz-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(232, 184, 106, 0.0);
+  transition: box-shadow 0.3s ease;
+}
+.kz-frame:hover {
+  border-color: rgba(232, 184, 106, 0.45);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 184, 106, 0.2);
+}
+.kz-frame:hover::after {
+  box-shadow: inset 0 0 0 1px rgba(232, 184, 106, 0.30);
+}
+.kz-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease, filter 0.4s ease;
+  filter: saturate(0.92) contrast(1.02);
+}
+.kz-frame:hover img { transform: scale(1.05); filter: saturate(1.1) contrast(1.05); }
+
+/* Museum label under each frame */
+.kz-museum-label {
+  padding: 0.875rem 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.kz-museum-label__cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #E8B86A;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.kz-museum-label__cat span.dot {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: #E8B86A;
+  display: inline-block;
+}
+html.light .kz-museum-label__cat { color: #C9933E; }
+html.light .kz-museum-label__cat span.dot { background: #C9933E; }
+.kz-museum-label__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.125rem;
+  font-style: italic;
+  font-weight: 500;
+  color: #F5E6CC;
+  line-height: 1.2;
+  margin-top: 0.125rem;
+}
+.kz-museum-label__artist {
+  font-size: 0.75rem;
+  color: #9b9189;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.kz-museum-label__artist strong {
+  color: #d4c8b8;
+  font-weight: 500;
+  font-style: italic;
+}
+html.light .kz-museum-label__title { color: #1c1917; }
+html.light .kz-museum-label__artist { color: #78716c; }
+html.light .kz-museum-label__artist strong { color: #292524; }
+
+/* Frame caption overlay (catalog number, sold tag) */
+.kz-frame__corner {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: #F5E6CC;
+  background: rgba(10, 9, 8, 0.7);
+  backdrop-filter: blur(4px);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(232, 184, 106, 0.25);
+}
+.kz-frame__price {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0a0908;
+  background: #E8B86A;
+  padding: 0.25rem 0.625rem;
+  letter-spacing: 0.02em;
+}
+html.light .kz-frame__price { color: #faf6ef; background: #C9933E; }
+.kz-frame__sold {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 9, 8, 0.55);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+.kz-frame__sold span {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  letter-spacing: 0.4em;
+  color: #F5E6CC;
+  border: 1px solid #F5E6CC;
+  padding: 0.5rem 1.25rem;
+  text-transform: uppercase;
 }

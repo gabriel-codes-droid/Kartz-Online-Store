@@ -62,9 +62,9 @@ export default function BecomeArtist(): React.ReactElement {
         <div className="kz-auth-emoji" style={{ bottom: '8%', right: '12%' }}>✨</div>
 
         <Link to="/" className="relative flex items-center gap-2 z-10">
-          <span className="inline-block w-3 h-3 rounded-full bg-kartz-cyan shadow-glowSm" />
+          <span className="inline-block w-3 h-3 rounded-full bg-kartz-amber shadow-glowSm" />
           <span className="font-display text-xl tracking-wide">
-            kartz<span className="text-kartz-cyan">.</span>
+            kartz<span className="text-kartz-amber">.</span>
           </span>
         </Link>
 
@@ -74,7 +74,7 @@ export default function BecomeArtist(): React.ReactElement {
           </span>
           <h2 className="font-display text-3xl sm:text-4xl xl:text-5xl leading-tight font-bold mb-4">
             sell on kartz.<br />
-            <span className="text-kartz-cyan">keep 95%.</span>
+            <span className="text-kartz-amber">keep 95%.</span>
           </h2>
           <p className="text-kartz-mute text-base sm:text-lg">
             we create a flutterwave subaccount for you so 95% of every sale
@@ -82,17 +82,17 @@ export default function BecomeArtist(): React.ReactElement {
           </p>
           <ul className="kz-feature-list">
             <li>List as many artworks as you want</li>
-            <li>Payments settle to your <strong className="text-kartz-cyan">MTN MoMo</strong> or <strong className="text-kartz-cyan">Airtel Money</strong></li>
+            <li>Payments settle to your <strong className="text-kartz-amber">MTN MoMo</strong> or <strong className="text-kartz-amber">Airtel Money</strong></li>
             <li>Real-time order notifications + sales dashboard</li>
           </ul>
 
           <div className="mt-8 grid grid-cols-2 gap-3">
             <div className="rounded-lg border border-kartz-line bg-kartz-panel/60 p-3 text-center">
-              <Wallet size={18} className="text-kartz-cyan mx-auto mb-1" />
+              <Wallet size={18} className="text-kartz-amber mx-auto mb-1" />
               <p className="text-[10px] uppercase tracking-wider text-kartz-mute">instant payouts</p>
             </div>
             <div className="rounded-lg border border-kartz-line bg-kartz-panel/60 p-3 text-center">
-              <ShieldCheck size={18} className="text-kartz-cyan mx-auto mb-1" />
+              <ShieldCheck size={18} className="text-kartz-amber mx-auto mb-1" />
               <p className="text-[10px] uppercase tracking-wider text-kartz-mute">secure escrow</p>
             </div>
           </div>
@@ -172,11 +172,11 @@ export default function BecomeArtist(): React.ReactElement {
                       onClick={() => setMobileProvider(p)}
                       className={`text-left p-3 rounded-md border transition ${
                         active
-                          ? 'border-kartz-cyan bg-kartz-cyan/10 shadow-glowSm'
-                          : 'border-kartz-line bg-black/40 hover:border-kartz-cyan/40'
+                          ? 'border-kartz-amber bg-kartz-amber/10 shadow-glowSm'
+                          : 'border-kartz-line bg-black/40 hover:border-kartz-amber/40'
                       }`}
                     >
-                      <p className="text-sm font-semibold text-white">{info.label}</p>
+                      <p className="text-sm font-semibold text-kartz-cream">{info.label}</p>
                       <p className="text-xs text-kartz-mute">{info.sub}</p>
                       <p className="text-[10px] text-kartz-mute mt-1">{info.prefix}</p>
                     </button>

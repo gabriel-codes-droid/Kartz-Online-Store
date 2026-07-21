@@ -21,8 +21,8 @@ import { useTheme } from '../theme';
 const linkCls = ({ isActive }: { isActive: boolean }): string =>
   `px-3 py-1.5 rounded-md text-sm transition ${
     isActive
-      ? 'text-kartz-cyan bg-kartz-cyan/10 shadow-glowSm'
-      : 'text-kartz-mute hover:text-white'
+      ? 'text-kartz-amber bg-kartz-amber/10 shadow-glowSm'
+      : 'text-kartz-mute hover:text-kartz-cream'
   }`;
 
 export default function Navbar(): React.ReactElement {
@@ -81,9 +81,9 @@ export default function Navbar(): React.ReactElement {
     <header className="sticky top-0 z-30 backdrop-blur bg-kartz-bg/70 border-b border-kartz-line">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <span className="inline-block w-3 h-3 rounded-full bg-kartz-cyan shadow-glowSm kz-pulse" />
-          <span className="font-display text-xl tracking-wide text-white">
-            kartz<span className="text-kartz-cyan">.</span>
+          <span className="inline-block w-3 h-3 rounded-full bg-kartz-amber shadow-glowSm kz-pulse" />
+          <span className="font-display text-xl tracking-wide text-kartz-cream">
+            kartz<span className="text-kartz-amber">.</span>
           </span>
         </Link>
 
@@ -146,7 +146,7 @@ export default function Navbar(): React.ReactElement {
                   aria-haspopup="menu"
                   aria-expanded={isProfileOpen}
                 >
-                  <span className="w-7 h-7 rounded-full bg-kartz-cyan/15 border border-kartz-cyan/40 flex items-center justify-center text-kartz-cyan font-display text-sm">
+                  <span className="w-7 h-7 rounded-full bg-kartz-amber/15 border border-kartz-amber/40 flex items-center justify-center text-kartz-amber font-display text-sm">
                     {initials}
                   </span>
                   <span className="hidden lg:inline text-sm text-kartz-mute">
@@ -156,7 +156,7 @@ export default function Navbar(): React.ReactElement {
                 {isProfileOpen && (
                   <div className="kz-profile-menu" role="menu">
                     <div className="px-3 py-2 border-b border-kartz-line mb-1">
-                      <p className="text-sm font-semibold text-white truncate">
+                      <p className="text-sm font-semibold text-kartz-cream truncate">
                         {user.displayName || user.username}
                       </p>
                       <p className="text-xs text-kartz-mute truncate">
@@ -229,14 +229,14 @@ export default function Navbar(): React.ReactElement {
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <span className="inline-block w-3 h-3 rounded-full bg-kartz-cyan shadow-glowSm" />
-                <span className="font-display text-lg tracking-wide text-white">
-                  kartz<span className="text-kartz-cyan">.</span>
+                <span className="inline-block w-3 h-3 rounded-full bg-kartz-amber shadow-glowSm" />
+                <span className="font-display text-lg tracking-wide text-kartz-cream">
+                  kartz<span className="text-kartz-amber">.</span>
                 </span>
               </div>
               <button
                 onClick={() => setIsDrawerOpen(false)}
-                className="text-kartz-mute hover:text-white p-1"
+                className="text-kartz-mute hover:text-kartz-cream p-1"
                 aria-label="Close menu"
               >
                 <X size={20} />
@@ -245,11 +245,11 @@ export default function Navbar(): React.ReactElement {
 
             {user && (
               <div className="kz-card p-3 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 rounded-full bg-kartz-cyan/15 border border-kartz-cyan/40 flex items-center justify-center text-kartz-cyan font-display">
+                <span className="w-10 h-10 rounded-full bg-kartz-amber/15 border border-kartz-amber/40 flex items-center justify-center text-kartz-amber font-display">
                   {initials}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">
+                  <p className="text-sm font-semibold text-kartz-cream truncate">
                     {user.displayName || user.username}
                   </p>
                   <p className="text-xs text-kartz-mute truncate">@{user.username}</p>

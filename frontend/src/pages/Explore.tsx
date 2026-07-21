@@ -110,7 +110,7 @@ export default function Explore(): React.ReactElement {
             <p>no matches.</p>
             <button
               onClick={() => { setQ(''); setCat(''); setSort('newest'); }}
-              className="text-kartz-cyan hover:underline text-sm mt-2 inline-block"
+              className="text-kartz-amber hover:underline text-sm mt-2 inline-block"
             >
               clear filters
             </button>
